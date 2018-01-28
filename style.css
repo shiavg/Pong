@@ -1,0 +1,56 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #2ECC71;
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+}
+
+.player-container {
+    /* background-color: black; */
+    background-color: blueviolet;    
+    width: 400px;
+    height: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.start-header {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.25em;
+    text-align: center;
+    white-space: pre;
+}
+
+.player-name {
+    position: absolute;
+    /* top: 4%; */
+    left: 50%;
+    transform: translateX(-50%);
+    color: red;
+}
+
+#player1-name {
+    top: 1%;
+}
+#player2-name {
+    bottom: 6%;
+}
+#player1-score {
+    font-size: 1.25em;
+    top: 7%;
+}
+#player2-score {
+    font-size: 1.25em;
+    bottom: 2.5%;
+}
