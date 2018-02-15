@@ -2,13 +2,29 @@ var canvas = document.querySelector('#canvas');
 var startHeader = document.querySelector('.start-header');
 var txtP1Score = document.querySelector('#player1-score');
 var txtP2Score = document.querySelector('#player2-score');
+var btnContinue = document.querySelector('.btn-continue');
+var btnPause = document.querySelector('.btn-pause');
+var btnResume = document.querySelector('.btn-resume');
+var btnRefresh = document.querySelector('.btn-refresh');
 var ctx = canvas.getContext('2d');
 var raf;
 var keys = [];
 var cancelCalc = false;
-var allowReset = true, fullReset = false, startUp = false;
+var allowReset = true, fullReset = false, startUpwards = false;
 var p1Score = 0, p2Score = 0;
 var winningScore = 3;
+
+// class sprite {
+//     constructor(x, y, color) {
+//         this.x = x;
+//         this.y = y;
+//         this.color = color;
+//     }
+// }
+
+// class ball extends sprite {
+
+// }
 
 var ball = {
   x: 200,
@@ -29,7 +45,7 @@ var ball = {
     this.y = 250;
     this.vx = 6;
     this.vy = 3;
-    if(startUp){
+    if(startUpwards){
         this.vx = -this.vx;
         this.vy = -this.vy;
     }
@@ -193,7 +209,7 @@ function calcAngle(bar) {
 //     return min + (((max - min) / steps) * (ballPos / steps));
 // }
 //Hey look, arrow syntax!
-var getVelocity = (min, max, steps, ballPos) => min + (((max - min) / steps) * (ballPos / steps))
+const getVelocity = (min, max, steps, ballPos) => min + (((max - min) / steps) * (ballPos / steps))
 
 function moveBar() {
     if(keys[37] && barBottom.x > 0) {
@@ -218,10 +234,10 @@ function continueGame() {
 
     if(ball.y < barTop.y) {
         p2Score++;
-        startUp = true;
+        startUpwards = true;
     } else if(ball.y > barBottom.y) {
         p1Score++;
-        startUp = false;
+        startUpwards = false;
     } else {
         //This should never happen
         startHeader.style.display = 'block';
@@ -233,13 +249,13 @@ function continueGame() {
     if(p1Score === winningScore || p2Score === winningScore) {
 
         startHeader.style.color = 'red';
-        startHeader.textContent = `Player ${startUp ? '2' : '1'} wins! \r\n Click anywhere to restart...`;
+        startHeader.textContent = `Player ${startUpwards ? '2' : '1'} wins! \r\n Click anywhere to restart...`;
         startHeader.style.display = 'block';
         fullReset = true;
 
     } else {
         //Continue next round
-        startHeader.textContent = `Player ${startUp ? '2' : '1'} scored! \r\n Click anywhere to continue...`;
+        startHeader.textContent = `Player ${startUpwards ? '2' : '1'} scored! \r\n Click anywhere to continue...`;
         startHeader.style.display = 'block';
     }
 
@@ -266,7 +282,7 @@ function restart() {
     displayScores();
     barTop.x = 162;
     barBottom.x = 162;
-    startUp = false;
+    startUpwards = false;
     fullReset = false;
     reset();
 }
@@ -279,10 +295,14 @@ window.addEventListener('keyup', function(e) {
     keys[e.keyCode] = false;
 });
 
-window.addEventListener('click', function(e) {
+canvas.addEventListener('click', function(e) {
     if(fullReset) restart(); else if(allowReset) reset();
 });
 
 ball.draw();
 barBottom.draw();
 barTop.draw();
+btnContinue.style.display = 'none';
+btnPause.style.display = 'none';
+btnResume.style.display = 'none';
+btnRefresh.style.display = 'none';

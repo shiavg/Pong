@@ -54,3 +54,16 @@ body {
     font-size: 1.25em;
     bottom: 2.5%;
 }
+
+i.material-icons {
+    font-size: 5em;
+}
+
+.btn-style {
+    position: absolute;
+    top: 70%;
+    left: 65%;
+    /* transform: translateX(-50%); */
+    background: none;
+    border: none;
+}
