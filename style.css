@@ -57,13 +57,41 @@ body {
 
 i.material-icons {
     font-size: 5em;
+    color: crimson;
 }
 
-.btn-style {
+.button-container {
     position: absolute;
     top: 70%;
     left: 65%;
+    margin-left: 30px;
+}
+
+.btn-style {
+    /* position: absolute;
+    top: 70%;
+    left: 65%; */
     /* transform: translateX(-50%); */
     background: none;
     border: none;
 }
+
+.button-title {
+    font-size: 1.1em;
+    /* position: absolute;
+    top: 77%;
+    left: 65%; */
+    color: crimson;
+}
+
+/* @media screen and (min-width: 500px ) {
+    .button-container {
+        margin-left: 150px;
+    }
+}
+
+@media screen and (min-width: 600px ) {
+    .button-container {
+        margin-left: 150px;
+    }
+} */

@@ -1,10 +1,11 @@
 var canvas = document.querySelector('#canvas');
 var startHeader = document.querySelector('.start-header');
+var buttonTitle = document.querySelector('.button-title');
 var txtP1Score = document.querySelector('#player1-score');
 var txtP2Score = document.querySelector('#player2-score');
 var btnContinue = document.querySelector('.btn-continue');
 var btnPause = document.querySelector('.btn-pause');
-var btnResume = document.querySelector('.btn-resume');
+var btnStart = document.querySelector('.btn-start');
 var btnRefresh = document.querySelector('.btn-refresh');
 var ctx = canvas.getContext('2d');
 var raf;
@@ -249,14 +250,22 @@ function continueGame() {
     if(p1Score === winningScore || p2Score === winningScore) {
 
         startHeader.style.color = 'red';
-        startHeader.textContent = `Player ${startUpwards ? '2' : '1'} wins! \r\n Click anywhere to restart...`;
+        startHeader.textContent = `Player ${startUpwards ? '2' : '1'} wins! \r\n Click the button to restart...`;
         startHeader.style.display = 'block';
+
+        btnPause.style.display = 'none';
+        btnRefresh.style.display = 'block';
+        setButtonTitle('New game');
+
         fullReset = true;
 
     } else {
         //Continue next round
-        startHeader.textContent = `Player ${startUpwards ? '2' : '1'} scored! \r\n Click anywhere to continue...`;
+        startHeader.textContent = `Player ${startUpwards ? '2' : '1'} scored! \r\n Click the button to continue...`;
         startHeader.style.display = 'block';
+        btnPause.style.display = 'none';
+        btnContinue.style.display = 'block';
+        setButtonTitle('Next round');
     }
 
     allowReset = true;
@@ -273,6 +282,12 @@ function reset() {
     startHeader.style.color = 'white';
     ball.reset();
     ball.draw();
+
+    btnStart.style.display = 'none';
+    btnContinue.style.display = 'none';
+    btnPause.style.display = 'block';
+    setButtonTitle('Pause');
+
     raf = window.requestAnimationFrame(draw);
 }
 
@@ -284,8 +299,11 @@ function restart() {
     barBottom.x = 162;
     startUpwards = false;
     fullReset = false;
+    btnRefresh.style.display = 'none';    
     reset();
 }
+
+const setButtonTitle = text => buttonTitle.textContent = text
 
 window.addEventListener('keydown', function(e) {
     keys[e.keyCode] = true;
@@ -295,8 +313,32 @@ window.addEventListener('keyup', function(e) {
     keys[e.keyCode] = false;
 });
 
-canvas.addEventListener('click', function(e) {
-    if(fullReset) restart(); else if(allowReset) reset();
+// canvas.addEventListener('click', function(e) {
+//     if(fullReset) restart(); else if(allowReset) reset();
+// });
+
+btnStart.addEventListener('click', function(e) {
+    if(allowReset) reset(); else raf = window.requestAnimationFrame(draw);
+
+    btnStart.style.display = 'none';
+    btnPause.style.display = 'block';
+    setButtonTitle('Pause');
+});
+
+btnPause.addEventListener('click', function(e) {
+    cancelAnimationFrame(raf);
+
+    btnPause.style.display = 'none';
+    btnStart.style.display = 'block';
+    setButtonTitle('Continue');
+});
+
+btnContinue.addEventListener('click', function(e) {
+    reset();
+});
+
+btnRefresh.addEventListener('click', function(e) {
+    restart();
 });
 
 ball.draw();
@@ -304,5 +346,5 @@ barBottom.draw();
 barTop.draw();
 btnContinue.style.display = 'none';
 btnPause.style.display = 'none';
-btnResume.style.display = 'none';
+//btnStart.style.display = 'none';
 btnRefresh.style.display = 'none';
